@@ -31,8 +31,12 @@ Discussing is not planning. When the user explores an idea or asks "what if" (fo
 Settled decisions. Do not reopen one unless the user does. When a decision changes, strike the old line through and add the date.
 
 - Target users & scope: Myanmar local online sellers (social commerce); fast, single-use invoice/voucher generator with no accounts, no backend database, and no invoice history (2026-11-25).
-- Local persistence: Save only the seller's reusable shop profile (shop details, logo, payment info) in browser `localStorage` (2026-11-25).
+- Local persistence: Save only the seller's reusable shop profile (shop details, logo, payment info, accent color) in browser `localStorage`, auto-saved with a Reset option (2026-11-25).
 - Export formats: Client-side DOM capture supporting PNG image only, PDF only, or both, selectable by the user (2026-11-25).
+- Mobile-first UX: Primary workflow optimized for mobile web (`Edit` / `Preview & Export` tabs and collapsible Shop Profile on mobile; side-by-side on desktop) (2026-11-25).
+- Language & fonts: Bilingual Burmese and English toggle with Burmese as default and proper Myanmar Unicode font support (2026-11-25).
+- Voucher layout & currency: Single clean Messenger/Viber-friendly voucher layout with an accent color picker (centered on A4/A5 for PDF), and `MMK` default with `MMK`/`THB`/`USD` currency selector (2026-11-25).
+- UI & forms stack: Use `shadcn/ui` components for UI controls and `react-hook-form` for form state and field arrays (2026-11-25).
 
 ### Out of scope
 
