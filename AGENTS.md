@@ -30,13 +30,16 @@ Discussing is not planning. When the user explores an idea or asks "what if" (fo
 
 Settled decisions. Do not reopen one unless the user does. When a decision changes, strike the old line through and add the date.
 
-- (none yet)
+- Target users & scope: Myanmar local online sellers (social commerce); fast, single-use invoice/voucher generator with no accounts, no backend database, and no invoice history (2026-11-25).
+- Local persistence: Save only the seller's reusable shop profile (shop details, logo, payment info) in browser `localStorage` (2026-11-25).
+- Export formats: Client-side DOM capture supporting PNG image only, PDF only, or both, selectable by the user (2026-11-25).
 
 ### Out of scope
 
 Features deliberately left out or removed. Do not add them back without asking.
 
-- (none yet)
+- User accounts, authentication, or backend database storage (2026-11-25).
+- Invoice history or saved past invoice drafts (2026-11-25).
 
 ## Generated files
 
