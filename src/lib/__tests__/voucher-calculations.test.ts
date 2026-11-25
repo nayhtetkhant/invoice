@@ -5,6 +5,7 @@ import {
   calculateVoucherTotals,
   createDefaultShopProfile,
   createDefaultVoucherOrder,
+  createEmptyPaymentAccount,
   formatCurrency,
 } from "@/lib/voucher-calculations";
 import type { VoucherLineItem, VoucherOrder } from "@/types/voucher";
@@ -112,6 +113,11 @@ describe("voucher calculations", () => {
     expect(order.currency).toBe("MMK");
     expect(order.date).toBe("2026-11-25");
     expect(order.items.length).toBe(1);
+
+    const payment = createEmptyPaymentAccount();
+    expect(payment.id).toBeTruthy();
+    expect(payment.label).toBe("");
+    expect(payment.qrImageDataUrl).toBeUndefined();
   });
 });
 

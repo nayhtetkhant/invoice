@@ -2,6 +2,7 @@ import {
   DEFAULT_ACCENT_COLOR,
   type Currency,
   type Language,
+  type PaymentAccount,
   type ShopProfile,
   type VoucherLineItem,
   type VoucherOrder,
@@ -112,6 +113,16 @@ export function createEmptyLineItem(): VoucherLineItem {
     name: "",
     quantity: 1,
     unitPrice: 0,
+  };
+}
+
+export function createEmptyPaymentAccount(): PaymentAccount {
+  return {
+    id: generateId("payment"),
+    label: "",
+    accountName: "",
+    accountNumber: "",
+    qrImageDataUrl: undefined,
   };
 }
 
