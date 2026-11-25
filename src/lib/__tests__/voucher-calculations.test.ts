@@ -7,6 +7,7 @@ import {
   createDefaultVoucherOrder,
   createEmptyPaymentAccount,
   formatCurrency,
+  sanitizeVoucherOrder,
 } from "@/lib/voucher-calculations";
 import type { VoucherLineItem, VoucherOrder } from "@/types/voucher";
 
@@ -118,6 +119,43 @@ describe("voucher calculations", () => {
     expect(payment.id).toBeTruthy();
     expect(payment.label).toBe("");
     expect(payment.qrImageDataUrl).toBeUndefined();
+  });
+
+  it("sanitizes partial or invalid voucher order inputs safely", () => {
+    const sanitized = sanitizeVoucherOrder({
+      voucherNumber: "V-042",
+      date: "2026-11-25",
+      customer: {
+        name: "Ko Kyaw",
+        phone: "09-123456789",
+        address: "Sanchaung",
+      },
+      items: [
+        { id: "", name: "Shirt", quantity: Number.NaN, unitPrice: -500 },
+        { id: "item-2", name: "Hat", quantity: 2, unitPrice: 7500 },
+      ],
+      currency: "EUR" as unknown as VoucherOrder["currency"],
+      discount: -100,
+      deliveryFee: Number.POSITIVE_INFINITY,
+      deposit: 3000,
+      notes: "Call on arrival",
+    });
+
+    expect(sanitized.voucherNumber).toBe("V-042");
+    expect(sanitized.currency).toBe("MMK");
+    expect(sanitized.discount).toBe(0);
+    expect(sanitized.deliveryFee).toBe(0);
+    expect(sanitized.deposit).toBe(3000);
+    expect(sanitized.items).toHaveLength(2);
+    expect(sanitized.items[0]?.id).toBeTruthy();
+    expect(sanitized.items[0]?.quantity).toBe(0);
+    expect(sanitized.items[0]?.unitPrice).toBe(0);
+    expect(sanitized.items[1]).toEqual({
+      id: "item-2",
+      name: "Hat",
+      quantity: 2,
+      unitPrice: 7500,
+    });
   });
 });
 

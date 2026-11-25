@@ -3,25 +3,39 @@
 import * as React from "react";
 import { Eye, FileText, PencilLine, Store } from "lucide-react";
 import { ShopProfileForm } from "@/components/shop-profile-form";
+import { VoucherOrderForm } from "@/components/voucher-order-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDictionary } from "@/lib/i18n";
 import { loadShopProfile } from "@/lib/shop-profile-storage";
-import { createDefaultShopProfile } from "@/lib/voucher-calculations";
-import type { Language, ShopProfile } from "@/types/voucher";
+import {
+  createDefaultShopProfile,
+  createDefaultVoucherOrder,
+} from "@/lib/voucher-calculations";
+import type { Language, ShopProfile, VoucherOrder } from "@/types/voucher";
 
 type MobileTab = "edit" | "preview";
 
 const EMPTY_SUBSCRIBE = () => () => {};
+
+const SSR_INITIAL_ORDER: VoucherOrder = {
+  voucherNumber: "",
+  date: "",
+  customer: {
+    name: "",
+    phone: "",
+    address: "",
+  },
+  items: [],
+  currency: "MMK",
+  discount: 0,
+  deliveryFee: 0,
+  deposit: 0,
+  notes: "",
+};
 
 export function VoucherBuilderShell() {
   const [language, setLanguage] = React.useState<Language>("my");
@@ -29,20 +43,27 @@ export function VoucherBuilderShell() {
   const [editedProfile, setEditedProfile] = React.useState<ShopProfile | null>(
     null,
   );
+  const [editedOrder, setEditedOrder] = React.useState<VoucherOrder | null>(
+    null,
+  );
 
-  const isProfileHydrated = React.useSyncExternalStore(
+  const isHydrated = React.useSyncExternalStore(
     EMPTY_SUBSCRIBE,
     () => true,
     () => false,
   );
 
   const initialProfile = React.useMemo(
-    () =>
-      isProfileHydrated ? loadShopProfile() : createDefaultShopProfile(),
-    [isProfileHydrated],
+    () => (isHydrated ? loadShopProfile() : createDefaultShopProfile()),
+    [isHydrated],
+  );
+  const initialOrder = React.useMemo(
+    () => (isHydrated ? createDefaultVoucherOrder() : SSR_INITIAL_ORDER),
+    [isHydrated],
   );
 
   const shopProfile = editedProfile ?? initialProfile;
+  const voucherOrder = editedOrder ?? initialOrder;
   const dictionary = getDictionary(language);
 
   React.useEffect(() => {
@@ -51,6 +72,10 @@ export function VoucherBuilderShell() {
 
   const handleProfileChange = React.useCallback((nextProfile: ShopProfile) => {
     setEditedProfile(nextProfile);
+  }, []);
+
+  const handleOrderChange = React.useCallback((nextOrder: VoucherOrder) => {
+    setEditedOrder(nextOrder);
   }, []);
 
   return (
@@ -133,27 +158,21 @@ export function VoucherBuilderShell() {
             }`}
           >
             <ShopProfileForm
-              key={isProfileHydrated ? "hydrated" : "ssr"}
+              key={isHydrated ? "hydrated" : "ssr"}
               dictionary={dictionary}
               profile={shopProfile}
-              isHydrated={isProfileHydrated}
+              isHydrated={isHydrated}
               onProfileChange={handleProfileChange}
             />
 
-            <Card>
-              <CardHeader>
-                <CardTitle>{dictionary.voucherOrderTitle}</CardTitle>
-                <CardDescription>
-                  {dictionary.itemsSectionTitle} ·{" "}
-                  {dictionary.summarySectionTitle}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground">
-                  {dictionary.noItemsPlaceholder}
-                </p>
-              </CardContent>
-            </Card>
+            <VoucherOrderForm
+              key={isHydrated ? "order-hydrated" : "order-ssr"}
+              dictionary={dictionary}
+              language={language}
+              accentColor={shopProfile.accentColor}
+              order={voucherOrder}
+              onOrderChange={handleOrderChange}
+            />
           </section>
 
           <aside

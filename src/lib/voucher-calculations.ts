@@ -1,4 +1,5 @@
 import {
+  CURRENCIES,
   DEFAULT_ACCENT_COLOR,
   type Currency,
   type Language,
@@ -153,5 +154,55 @@ export function createDefaultVoucherOrder(date = getTodayIsoDate()): VoucherOrde
     deliveryFee: 0,
     deposit: 0,
     notes: "",
+  };
+}
+
+function sanitizeString(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+
+function sanitizeCurrency(value: unknown): Currency {
+  return typeof value === "string" &&
+    (CURRENCIES as readonly string[]).includes(value)
+    ? (value as Currency)
+    : "MMK";
+}
+
+function sanitizeLineItem(item: Partial<VoucherLineItem> | undefined): VoucherLineItem {
+  const id =
+    typeof item?.id === "string" && item.id.trim().length > 0
+      ? item.id
+      : generateId("item");
+
+  return {
+    id,
+    name: sanitizeString(item?.name),
+    quantity: sanitizeNonNegative(Number(item?.quantity)),
+    unitPrice: sanitizeNonNegative(Number(item?.unitPrice)),
+  };
+}
+
+/** Normalizes form or partial order values into a valid, non-negative VoucherOrder. */
+export function sanitizeVoucherOrder(
+  order: Partial<VoucherOrder> | undefined,
+): VoucherOrder {
+  const items = Array.isArray(order?.items)
+    ? order.items.map((item) => sanitizeLineItem(item))
+    : [createEmptyLineItem()];
+
+  return {
+    voucherNumber: sanitizeString(order?.voucherNumber),
+    date: sanitizeString(order?.date),
+    customer: {
+      name: sanitizeString(order?.customer?.name),
+      phone: sanitizeString(order?.customer?.phone),
+      address: sanitizeString(order?.customer?.address),
+    },
+    items,
+    currency: sanitizeCurrency(order?.currency),
+    discount: sanitizeNonNegative(Number(order?.discount)),
+    deliveryFee: sanitizeNonNegative(Number(order?.deliveryFee)),
+    deposit: sanitizeNonNegative(Number(order?.deposit)),
+    notes: sanitizeString(order?.notes),
   };
 }
