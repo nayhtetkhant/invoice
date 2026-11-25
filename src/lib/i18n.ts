@@ -9,6 +9,8 @@ export interface Dictionary {
   langEn: string;
   tabEdit: string;
   tabPreviewExport: string;
+  previewButton: string;
+  backToEdit: string;
 
   // Shop profile
   shopProfileTitle: string;
@@ -58,12 +60,15 @@ export interface Dictionary {
   customerPhonePlaceholder: string;
   customerAddress: string;
   customerAddressPlaceholder: string;
+  addAddress: string;
   itemsSectionTitle: string;
   addItem: string;
   removeItem: string;
   itemName: string;
   itemNamePlaceholder: string;
   quantity: string;
+  decreaseQty: string;
+  increaseQty: string;
   unitPrice: string;
   lineTotal: string;
   adjustmentsSectionTitle: string;
@@ -73,6 +78,7 @@ export interface Dictionary {
   deposit: string;
   notes: string;
   notesPlaceholder: string;
+  addNote: string;
   summarySectionTitle: string;
   subtotal: string;
   grandTotal: string;
@@ -129,6 +135,8 @@ const my: Dictionary = {
   langEn: "EN",
   tabEdit: "ဖြည့်သွင်းရန်",
   tabPreviewExport: "ကြည့်ရှု & ထုတ်ယူရန်",
+  previewButton: "အကြိုကြည့်ရန်",
+  backToEdit: "ပြင်ဆင်ရန်",
 
   shopProfileTitle: "ဆိုင်အချက်အလက်",
   shopProfileDescription: "ဤစက်ထဲတွင် အလိုအလျောက် သိမ်းဆည်းထားပါမည်။",
@@ -176,12 +184,15 @@ const my: Dictionary = {
   customerPhonePlaceholder: "09-xxxxxxxxx",
   customerAddress: "ပို့ဆောင်မည့်လိပ်စာ",
   customerAddressPlaceholder: "မြို့နယ်၊ လိပ်စာအပြည့်အစုံ",
+  addAddress: "ပို့ဆောင်မည့်လိပ်စာ ထည့်ရန်",
   itemsSectionTitle: "မှာယူသည့်ပစ္စည်းများ",
   addItem: "ပစ္စည်းထပ်ထည့်ရန်",
   removeItem: "ဖျက်ရန်",
   itemName: "ပစ္စည်းအမည်",
   itemNamePlaceholder: "ပစ္စည်းအမည်ရေးပါ",
   quantity: "အရေအတွက်",
+  decreaseQty: "အရေအတွက် လျှော့ရန်",
+  increaseQty: "အရေအတွက် တိုးရန်",
   unitPrice: "နှုန်း",
   lineTotal: "သင့်ငွေ",
   adjustmentsSectionTitle: "ငွေပေးချေမှုနှင့် တွက်ချက်မှု",
@@ -191,6 +202,7 @@ const my: Dictionary = {
   deposit: "စရန်ငွေ / ကြိုတင်ငွေ",
   notes: "မှတ်ချက်",
   notesPlaceholder: "ပို့ဆောင်ချိန် သို့မဟုတ် မှာကြားချက်",
+  addNote: "မှတ်ချက် ထည့်ရန်",
   summarySectionTitle: "စုစုပေါင်းစာရင်း",
   subtotal: "ပစ္စည်းစုစုပေါင်း",
   grandTotal: "ကျသင့်ငွေစုစုပေါင်း",
@@ -244,6 +256,8 @@ const en: Dictionary = {
   langEn: "EN",
   tabEdit: "Edit",
   tabPreviewExport: "Preview & Export",
+  previewButton: "Preview",
+  backToEdit: "Edit",
 
   shopProfileTitle: "Shop Profile",
   shopProfileDescription: "Auto-saved locally in this browser.",
@@ -291,12 +305,15 @@ const en: Dictionary = {
   customerPhonePlaceholder: "09-xxxxxxxxx",
   customerAddress: "Delivery Address",
   customerAddressPlaceholder: "Township, full delivery address",
+  addAddress: "Add delivery address",
   itemsSectionTitle: "Line Items",
   addItem: "Add Item",
   removeItem: "Remove",
   itemName: "Item Name",
   itemNamePlaceholder: "Enter item name",
   quantity: "Qty",
+  decreaseQty: "Decrease quantity",
+  increaseQty: "Increase quantity",
   unitPrice: "Unit Price",
   lineTotal: "Line Total",
   adjustmentsSectionTitle: "Adjustments & Payment",
@@ -306,6 +323,7 @@ const en: Dictionary = {
   deposit: "Prepaid / Deposit",
   notes: "Order Notes",
   notesPlaceholder: "Delivery instructions or note",
+  addNote: "Add note",
   summarySectionTitle: "Order Summary",
   subtotal: "Subtotal",
   grandTotal: "Grand Total",

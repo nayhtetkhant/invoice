@@ -11,4 +11,4 @@ Implement client-side DOM capture export with a `shadcn/ui` format selector (`PN
 - [ ] User can select export mode (`PNG only`, `PDF only`, or `Both`) and trigger download from the `Preview & Export` view with loading and error feedback.
 - [ ] PNG export captures the voucher DOM cleanly at high resolution for Messenger/Viber sharing, with no clipped text, missing images, or broken Myanmar Unicode glyphs.
 - [ ] PDF export embeds the captured voucher centered on an A4 or A5 page without distortion or cut-off content.
-- [ ] `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`, and all unit tests pass.
+- [x] `pnpm exec tsc --noEmit`, `pnpm lint`, `pnpm build`, and all unit tests pass.

@@ -58,6 +58,7 @@ describe("VoucherPreviewCard", () => {
     );
 
     expect(html).toContain('data-voucher-sheet="true"');
+    expect(html).not.toContain('data-slot="card"');
     expect(html).toContain("#2563eb");
     expect(html).toContain(sampleProfile.logoDataUrl);
     expect(html).toContain(sampleProfile.shopName);
