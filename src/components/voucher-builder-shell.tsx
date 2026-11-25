@@ -1,13 +1,11 @@
 "use client";
 
 import * as React from "react";
-import { Eye, FileText, PencilLine, Store } from "lucide-react";
+import { Eye, FileText, PencilLine } from "lucide-react";
 import { ShopProfileForm } from "@/components/shop-profile-form";
 import { VoucherOrderForm } from "@/components/voucher-order-form";
-import { Badge } from "@/components/ui/badge";
+import { VoucherPreviewCard } from "@/components/voucher-preview-card";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getDictionary } from "@/lib/i18n";
 import { loadShopProfile } from "@/lib/shop-profile-storage";
@@ -46,6 +44,7 @@ export function VoucherBuilderShell() {
   const [editedOrder, setEditedOrder] = React.useState<VoucherOrder | null>(
     null,
   );
+  const voucherPreviewRef = React.useRef<HTMLDivElement>(null);
 
   const isHydrated = React.useSyncExternalStore(
     EMPTY_SUBSCRIBE,
@@ -181,112 +180,13 @@ export function VoucherBuilderShell() {
               activeTab === "preview" ? "block" : "hidden lg:block"
             }`}
           >
-            <Card>
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between gap-2">
-                  <CardTitle>{dictionary.previewTitle}</CardTitle>
-                  <Badge variant="outline">{dictionary.voucherHeading}</Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="overflow-hidden rounded-xl border bg-background shadow-xs">
-                  <div
-                    className="h-2 w-full"
-                    style={{ backgroundColor: shopProfile.accentColor }}
-                  />
-                  <div className="space-y-3 p-4">
-                    <div className="flex items-start gap-3">
-                      {shopProfile.logoDataUrl ? (
-                        <div className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-white p-1">
-                          {/* eslint-disable-next-line @next/next/no-img-element -- Data URL logo preview */}
-                          <img
-                            src={shopProfile.logoDataUrl}
-                            alt={dictionary.shopLogo}
-                            className="max-h-full max-w-full object-contain"
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          className="flex size-12 shrink-0 items-center justify-center rounded-lg text-white"
-                          style={{ backgroundColor: shopProfile.accentColor }}
-                        >
-                          <Store className="size-5" />
-                        </div>
-                      )}
-
-                      <div className="min-w-0 flex-1 space-y-0.5">
-                        <p className="break-words text-base font-semibold leading-snug">
-                          {shopProfile.shopName.trim() ||
-                            dictionary.shopProfileSummaryEmpty}
-                        </p>
-                        {shopProfile.phones.trim() ? (
-                          <p className="break-words text-xs text-muted-foreground">
-                            {shopProfile.phones}
-                          </p>
-                        ) : null}
-                        {shopProfile.addressOrSocial.trim() ? (
-                          <p className="whitespace-pre-line break-words text-xs text-muted-foreground">
-                            {shopProfile.addressOrSocial}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-
-                    {shopProfile.paymentAccounts.length > 0 ? (
-                      <>
-                        <Separator />
-                        <div className="space-y-2">
-                          <p className="text-xs font-medium text-muted-foreground">
-                            {dictionary.paymentMethodsLabel}
-                          </p>
-                          <div className="space-y-2">
-                            {shopProfile.paymentAccounts.map((account) => (
-                              <div
-                                key={account.id}
-                                className="flex items-center justify-between gap-3 rounded-lg bg-muted/40 p-2 text-xs"
-                              >
-                                <div className="min-w-0 space-y-0.5">
-                                  <p className="font-medium break-words">
-                                    {account.label || dictionary.paymentLabel}
-                                  </p>
-                                  <p className="text-muted-foreground break-words">
-                                    {[
-                                      account.accountName,
-                                      account.accountNumber,
-                                    ]
-                                      .filter((part) => part.trim().length > 0)
-                                      .join(" · ")}
-                                  </p>
-                                </div>
-                                {account.qrImageDataUrl ? (
-                                  <div className="size-11 shrink-0 overflow-hidden rounded border bg-white p-0.5">
-                                    {/* eslint-disable-next-line @next/next/no-img-element -- Data URL QR preview */}
-                                    <img
-                                      src={account.qrImageDataUrl}
-                                      alt={
-                                        account.label ||
-                                        dictionary.paymentQrImage
-                                      }
-                                      className="h-full w-full object-contain"
-                                    />
-                                  </div>
-                                ) : null}
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </>
-                    ) : null}
-
-                    <Separator />
-                    <p className="whitespace-pre-line break-words text-center text-xs text-muted-foreground">
-                      {shopProfile.defaultFooter.trim() ||
-                        dictionary.thankYouFallback}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <VoucherPreviewCard
+              dictionary={dictionary}
+              language={language}
+              shopProfile={shopProfile}
+              order={voucherOrder}
+              previewRef={voucherPreviewRef}
+            />
           </aside>
         </div>
       </main>
