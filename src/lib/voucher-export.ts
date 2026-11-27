@@ -55,6 +55,12 @@ export interface ExportVoucherDeps {
   betweenDownloadsMs?: number;
 }
 
+export interface CopyVoucherDeps {
+  captureCanvas?: (element: HTMLElement) => Promise<HTMLCanvasElement>;
+  toPngBlob?: (canvas: HTMLCanvasElement) => Promise<Blob>;
+  writeImageBlob?: (blob: Blob) => Promise<void>;
+}
+
 function sanitizeFilenameSegment(value: string): string {
   return value
     .trim()
@@ -313,4 +319,38 @@ export async function exportVoucher(
     const pdfBlob = await toPdfBlob(canvas, paperSize);
     downloadBlob(pdfBlob, buildVoucherFilename(order, "pdf"));
   }
+}
+
+async function writePngBlobToClipboard(blob: Blob): Promise<void> {
+  if (
+    typeof navigator === "undefined" ||
+    !navigator.clipboard?.write ||
+    typeof ClipboardItem === "undefined"
+  ) {
+    throw new Error("Clipboard image copy is unavailable in this browser.");
+  }
+
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      "image/png": blob,
+    }),
+  ]);
+}
+
+/** Captures the voucher preview as PNG and copies it to the system clipboard. */
+export async function copyVoucherImage(
+  { element }: { element: HTMLElement | null },
+  deps: CopyVoucherDeps = {},
+): Promise<void> {
+  if (!element) {
+    throw new Error("Voucher preview element is missing.");
+  }
+
+  const captureCanvas = deps.captureCanvas ?? captureVoucherPngCanvas;
+  const toPngBlob = deps.toPngBlob ?? canvasToPngBlob;
+  const writeImageBlob = deps.writeImageBlob ?? writePngBlobToClipboard;
+
+  const canvas = await captureCanvas(element);
+  const pngBlob = await toPngBlob(canvas);
+  await writeImageBlob(pngBlob);
 }

@@ -18,6 +18,7 @@ export interface Dictionary {
   shopProfileSummaryEmpty: string;
   editShopProfile: string;
   collapseShopProfile: string;
+  cancelAction: string;
   shopName: string;
   shopNamePlaceholder: string;
   shopPhones: string;
@@ -30,6 +31,7 @@ export interface Dictionary {
   accentColor: string;
   customColor: string;
   paymentAccounts: string;
+  paymentAccountsHint: string;
   addPaymentAccount: string;
   removePaymentAccount: string;
   paymentLabel: string;
@@ -48,8 +50,11 @@ export interface Dictionary {
   shopProfileSavedNotice: string;
 
   // Voucher order form
+  fromLabel: string;
+  managePaymentAccounts: string;
   voucherOrderTitle: string;
   newClearVoucher: string;
+  clearVoucherConfirm: string;
   voucherNumber: string;
   voucherNumberPlaceholder: string;
   voucherDate: string;
@@ -74,8 +79,12 @@ export interface Dictionary {
   adjustmentsSectionTitle: string;
   currency: string;
   discount: string;
+  addDiscount: string;
   deliveryFee: string;
+  addDeliveryFee: string;
   deposit: string;
+  addDeposit: string;
+  markPaidInFull: string;
   notes: string;
   notesPlaceholder: string;
   addNote: string;
@@ -121,6 +130,10 @@ export interface Dictionary {
   exportingButton: string;
   exportSuccess: string;
   exportError: string;
+  copyImageButton: string;
+  copyingImageButton: string;
+  copyImageSuccess: string;
+  copyImageError: string;
 
   // Image / validation feedback
   invalidImageType: string;
@@ -142,7 +155,8 @@ const my: Dictionary = {
   shopProfileDescription: "ဤစက်ထဲတွင် အလိုအလျောက် သိမ်းဆည်းထားပါမည်။",
   shopProfileSummaryEmpty: "ဆိုင်အမည်နှင့် ငွေလက်ခံအကောင့်များ ထည့်သွင်းပါ",
   editShopProfile: "ပြင်ဆင်ရန်",
-  collapseShopProfile: "ပိတ်ရန်",
+  collapseShopProfile: "ပြီးပါပြီ",
+  cancelAction: "မလုပ်တော့ပါ",
   shopName: "ဆိုင်အမည်",
   shopNamePlaceholder: "ဥပမာ - မမလေး ဖက်ရှင်",
   shopPhones: "ဖုန်းနံပါတ်",
@@ -155,6 +169,7 @@ const my: Dictionary = {
   accentColor: "အဓိကအရောင်",
   customColor: "အရောင်ရွေးရန်",
   paymentAccounts: "ငွေလက်ခံအကောင့်များ",
+  paymentAccountsHint: "KBZPay, WavePay သို့မဟုတ် ဘဏ်အကောင့်နှင့် QR ပုံများ ထည့်သွင်းပါက ဘောက်ချာတွင် ဖော်ပြပေးပါမည်။",
   addPaymentAccount: "အကောင့်ထပ်ထည့်ရန်",
   removePaymentAccount: "ဖယ်ရှားရန်",
   paymentLabel: "ငွေပေးချေမှုနည်းလမ်း",
@@ -172,8 +187,11 @@ const my: Dictionary = {
   resetShopProfileConfirm: "သိမ်းထားသော ဆိုင်အချက်အလက်အားလုံးကို ဖျက်မလား?",
   shopProfileSavedNotice: "စက်ထဲတွင် အလိုအလျောက် သိမ်းပြီး",
 
+  fromLabel: "ဆိုင်မှ (From)",
+  managePaymentAccounts: "ငွေလက်ခံအကောင့် / QR စီမံရန်",
   voucherOrderTitle: "ဘောက်ချာအချက်အလက်",
   newClearVoucher: "ဘောက်ချာအသစ် / ရှင်းရန်",
+  clearVoucherConfirm: "လက်ရှိဖြည့်ထားသော ဘောက်ချာအချက်အလက်များကို ရှင်းလင်းမလား?",
   voucherNumber: "ဘောက်ချာနံပါတ်",
   voucherNumberPlaceholder: "ဥပမာ - V-001",
   voucherDate: "ရက်စွဲ",
@@ -198,8 +216,12 @@ const my: Dictionary = {
   adjustmentsSectionTitle: "ငွေပေးချေမှုနှင့် တွက်ချက်မှု",
   currency: "ငွေကြေး",
   discount: "လျှော့ဈေး",
+  addDiscount: "လျှော့ဈေး ထည့်ရန်",
   deliveryFee: "ပို့ခ",
+  addDeliveryFee: "ပို့ခ ထည့်ရန်",
   deposit: "စရန်ငွေ / ကြိုတင်ငွေ",
+  addDeposit: "စရန်ငွေ ထည့်ရန်",
+  markPaidInFull: "အပြည့်ပေးပြီး",
   notes: "မှတ်ချက်",
   notesPlaceholder: "ပို့ဆောင်ချိန် သို့မဟုတ် မှာကြားချက်",
   addNote: "မှတ်ချက် ထည့်ရန်",
@@ -217,7 +239,7 @@ const my: Dictionary = {
   phoneLabel: "ဖုန်း",
   addressLabel: "လိပ်စာ",
   itemCol: "ပစ္စည်း",
-  qtyCol: "ဦးရေ",
+  qtyCol: "အရေအတွက်",
   priceCol: "နှုန်း",
   amountCol: "သင့်ငွေ",
   subtotalLabel: "စုစုပေါင်း",
@@ -233,9 +255,9 @@ const my: Dictionary = {
 
   exportTitle: "ဘောက်ချာထုတ်ယူရန်",
   exportFormatLabel: "ဖိုင်အမျိုးအစား",
-  formatPng: "PNG ပုံသီးသန့်",
-  formatPdf: "PDF ဖိုင်သီးသန့်",
-  formatBoth: "PNG + PDF နှစ်မျိုးလုံး",
+  formatPng: "PNG ပုံ",
+  formatPdf: "PDF ဖိုင်",
+  formatBoth: "PNG + PDF",
   pdfPaperSizeLabel: "PDF စာရွက်အရွယ်အစား",
   paperA4: "A4",
   paperA5: "A5",
@@ -243,6 +265,10 @@ const my: Dictionary = {
   exportingButton: "ဖိုင်ထုတ်နေပါသည်...",
   exportSuccess: "ဘောက်ချာဖိုင် ဒေါင်းလုဒ်ဆွဲပြီးပါပြီ။",
   exportError: "ဘောက်ချာထုတ်ယူရာတွင် အမှားဖြစ်ပွားပါသည်။ ထပ်မံကြိုးစားပါ။",
+  copyImageButton: "ပုံကူးယူရန်",
+  copyingImageButton: "ကူးယူနေပါသည်...",
+  copyImageSuccess: "ကူးယူပြီးပါပြီ",
+  copyImageError: "ပုံကူးယူ၍မရပါ။ ဒေါင်းလုဒ်ဆွဲ၍ သုံးပါ။",
 
   invalidImageType: "PNG, JPG သို့မဟုတ် WebP ပုံဖိုင်သာ ရွေးချယ်ပါ။",
   imageProcessError: "ပုံဖိုင်ကို ပြင်ဆင်ရာတွင် မအောင်မြင်ပါ။",
@@ -263,7 +289,8 @@ const en: Dictionary = {
   shopProfileDescription: "Auto-saved locally in this browser.",
   shopProfileSummaryEmpty: "Add your shop name and payment accounts",
   editShopProfile: "Edit",
-  collapseShopProfile: "Collapse",
+  collapseShopProfile: "Done",
+  cancelAction: "Cancel",
   shopName: "Shop Name",
   shopNamePlaceholder: "e.g. Ma Ma Lay Fashion",
   shopPhones: "Phone Number(s)",
@@ -276,6 +303,7 @@ const en: Dictionary = {
   accentColor: "Accent Color",
   customColor: "Custom Color",
   paymentAccounts: "Payment Accounts",
+  paymentAccountsHint: "Add KBZPay, WavePay, or bank accounts and QR codes to display on vouchers.",
   addPaymentAccount: "Add Payment Account",
   removePaymentAccount: "Remove",
   paymentLabel: "Payment Method",
@@ -293,8 +321,11 @@ const en: Dictionary = {
   resetShopProfileConfirm: "Clear all saved shop profile details?",
   shopProfileSavedNotice: "Auto-saved in browser",
 
+  fromLabel: "From",
+  managePaymentAccounts: "Payment Accounts & QR",
   voucherOrderTitle: "Voucher Order",
   newClearVoucher: "New / Clear Voucher",
+  clearVoucherConfirm: "Clear the current voucher details?",
   voucherNumber: "Voucher #",
   voucherNumberPlaceholder: "e.g. V-001",
   voucherDate: "Date",
@@ -319,8 +350,12 @@ const en: Dictionary = {
   adjustmentsSectionTitle: "Adjustments & Payment",
   currency: "Currency",
   discount: "Discount",
+  addDiscount: "Add discount",
   deliveryFee: "Delivery Fee",
+  addDeliveryFee: "Add delivery",
   deposit: "Prepaid / Deposit",
+  addDeposit: "Add deposit",
+  markPaidInFull: "Paid in full",
   notes: "Order Notes",
   notesPlaceholder: "Delivery instructions or note",
   addNote: "Add note",
@@ -354,9 +389,9 @@ const en: Dictionary = {
 
   exportTitle: "Export Voucher",
   exportFormatLabel: "Export Format",
-  formatPng: "PNG Image Only",
-  formatPdf: "PDF Only",
-  formatBoth: "Both PNG & PDF",
+  formatPng: "PNG",
+  formatPdf: "PDF",
+  formatBoth: "PNG + PDF",
   pdfPaperSizeLabel: "PDF Paper Size",
   paperA4: "A4",
   paperA5: "A5",
@@ -364,6 +399,10 @@ const en: Dictionary = {
   exportingButton: "Exporting...",
   exportSuccess: "Voucher downloaded successfully.",
   exportError: "Failed to export voucher. Please try again.",
+  copyImageButton: "Copy Image",
+  copyingImageButton: "Copying...",
+  copyImageSuccess: "Copied!",
+  copyImageError: "Could not copy image. Please download instead.",
 
   invalidImageType: "Please choose a PNG, JPG, or WebP image.",
   imageProcessError: "Could not process the selected image.",

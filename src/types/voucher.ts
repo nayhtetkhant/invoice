@@ -12,12 +12,12 @@ export const DEFAULT_ACCENT_COLOR = "#0f766e";
 
 export const ACCENT_COLOR_PRESETS: readonly string[] = [
   "#0f766e",
-  "#2563eb",
-  "#7c3aed",
-  "#db2777",
-  "#dc2626",
-  "#ea580c",
-  "#1f2937",
+  "#1d4ed8",
+  "#c2410c",
+  "#7e22ce",
+  "#be123c",
+  "#15803d",
+  "#1c1917",
 ];
 
 export interface PaymentAccount {
@@ -61,6 +61,7 @@ export interface VoucherOrder {
   deliveryFee: number;
   deposit: number;
   notes: string;
+  selectedPaymentAccountIds?: string[];
 }
 
 export interface VoucherTotals {

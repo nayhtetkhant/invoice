@@ -7,6 +7,8 @@ import {
   createDefaultVoucherOrder,
   createEmptyPaymentAccount,
   formatCurrency,
+  getAccentTokens,
+  sanitizeNumericText,
   sanitizeVoucherOrder,
 } from "@/lib/voucher-calculations";
 import type { VoucherLineItem, VoucherOrder } from "@/types/voucher";
@@ -181,5 +183,29 @@ describe("currency formatting", () => {
     expect(formatCurrency(-500, "MMK", "en")).toBe("-500 Ks");
     expect(formatCurrency(-12.5, "USD", "en")).toBe("-$12.50");
     expect(formatCurrency(Number.NaN, "MMK", "my")).toBe("0 ကျပ်");
+  });
+
+  it("derives contrast-safe ink and foreground tokens for light vs dark accent colors", () => {
+    expect(getAccentTokens("#0f766e")).toEqual({
+      base: "#0f766e",
+      ink: "#0f766e",
+      onAccent: "#ffffff",
+      tint: "#0f766e14",
+    });
+
+    expect(getAccentTokens("#fef08a")).toEqual({
+      base: "#fef08a",
+      ink: "#1c1917",
+      onAccent: "#1c1917",
+      tint: "#fef08a33",
+    });
+  });
+
+  it("sanitizes text numeric input to allow only digits and a single decimal point", () => {
+    expect(sanitizeNumericText("15000")).toBe("15000");
+    expect(sanitizeNumericText("15,000abc")).toBe("15000");
+    expect(sanitizeNumericText("-12.5.9xyz")).toBe("12.59");
+    expect(sanitizeNumericText("abc")).toBe("");
+    expect(sanitizeNumericText("0.75")).toBe("0.75");
   });
 });

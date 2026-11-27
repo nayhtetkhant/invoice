@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ImagePlus, Loader2, Trash2 } from "lucide-react";
+import { ImagePlus, Loader2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -19,6 +19,7 @@ interface ImageUploadFieldProps {
   value?: string;
   preset: ImagePreset;
   dictionary: Pick<Dictionary, "invalidImageType" | "imageProcessError">;
+  hideLabel?: boolean;
   onChange: (dataUrl: string | undefined) => void;
 }
 
@@ -30,6 +31,7 @@ export function ImageUploadField({
   value,
   preset,
   dictionary,
+  hideLabel = false,
   onChange,
 }: ImageUploadFieldProps) {
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -65,8 +67,12 @@ export function ImageUploadField({
   }
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
+    <div className="space-y-1.5">
+      {!hideLabel ? (
+        <Label htmlFor={id} className="text-xs font-medium text-stone-700">
+          {label}
+        </Label>
+      ) : null}
       <input
         ref={inputRef}
         id={id}
@@ -76,52 +82,60 @@ export function ImageUploadField({
         onChange={handleFileChange}
       />
 
-      <div className="flex flex-wrap items-center gap-3">
-        {value ? (
-          <div className="relative flex size-16 shrink-0 items-center justify-center overflow-hidden rounded-lg border bg-background p-1">
+      {value ? (
+        <div className="relative inline-block">
+          <button
+            type="button"
+            data-upload-tile="true"
+            disabled={isProcessing}
+            aria-label={uploadLabel}
+            onClick={() => inputRef.current?.click()}
+            className="group relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-stone-200 bg-white p-1.5 transition-colors hover:border-stone-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          >
             {/* eslint-disable-next-line @next/next/no-img-element -- Data URLs from localStorage must render as raw <img> for DOM capture */}
             <img
               src={value}
               alt={label}
               className="max-h-full max-w-full object-contain"
             />
-          </div>
-        ) : null}
+            {isProcessing ? (
+              <span className="absolute inset-0 flex items-center justify-center bg-white/80">
+                <Loader2 className="size-4 animate-spin text-stone-700" />
+              </span>
+            ) : null}
+          </button>
 
-        <div className="flex flex-wrap items-center gap-2">
           <Button
             type="button"
             variant="outline"
-            size="lg"
-            className="min-h-10 px-3"
-            disabled={isProcessing}
-            onClick={() => inputRef.current?.click()}
+            size="icon-xs"
+            aria-label={removeLabel}
+            title={removeLabel}
+            onClick={() => {
+              setErrorMessage(null);
+              onChange(undefined);
+            }}
+            className="absolute -top-2 -right-2 z-10 size-6 rounded-full border-rose-200 bg-white text-rose-600 shadow-sm transition-all duration-150 hover:border-rose-300 hover:bg-rose-50 hover:text-rose-700 active:not-aria-[haspopup]:translate-y-0 active:scale-95"
           >
-            {isProcessing ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <ImagePlus />
-            )}
-            <span>{uploadLabel}</span>
+            <X className="size-3.5" />
           </Button>
-
-          {value ? (
-            <Button
-              type="button"
-              variant="ghost"
-              size="lg"
-              className="min-h-10 px-3 text-destructive hover:bg-destructive/10 hover:text-destructive"
-              onClick={() => {
-                setErrorMessage(null);
-                onChange(undefined);
-              }}
-            >
-              <Trash2 />
-              <span>{removeLabel}</span>
-            </Button>
-          ) : null}
         </div>
-      </div>
+      ) : (
+        <button
+          type="button"
+          data-upload-tile="true"
+          disabled={isProcessing}
+          onClick={() => inputRef.current?.click()}
+          className="flex h-20 w-full items-center justify-center gap-2 rounded-lg border border-stone-300/90 bg-[#FAF8F4] px-3 text-xs font-medium text-stone-600 transition-colors hover:border-stone-400 hover:bg-[#F3EFE6] hover:text-stone-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        >
+          {isProcessing ? (
+            <Loader2 className="size-4 animate-spin" />
+          ) : (
+            <ImagePlus className="size-4 text-stone-500" />
+          )}
+          <span>{uploadLabel}</span>
+        </button>
+      )}
 
       {errorMessage ? (
         <p className="text-xs text-destructive" role="alert">

@@ -1,8 +1,13 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   SHOP_PROFILE_STORAGE_KEY,
+  VOUCHER_SEQUENCE_STORAGE_KEY,
+  getNextVoucherNumber,
+  incrementVoucherNumber,
+  loadLastVoucherNumber,
   loadShopProfile,
   resetShopProfile,
+  saveLastVoucherNumber,
   saveShopProfile,
 } from "@/lib/shop-profile-storage";
 import { createDefaultShopProfile } from "@/lib/voucher-calculations";
@@ -178,5 +183,25 @@ describe("shop-profile-storage", () => {
     expect(loadShopProfile()).toEqual(defaults);
     expect(saveShopProfile(defaults)).toBe(false);
     expect(resetShopProfile()).toEqual(defaults);
+  });
+
+  it("increments and persists voucher numbers across localStorage sessions", () => {
+    expect(incrementVoucherNumber(undefined)).toBe("V-001");
+    expect(incrementVoucherNumber("")).toBe("V-001");
+    expect(incrementVoucherNumber("V-001")).toBe("V-002");
+    expect(incrementVoucherNumber("V-009")).toBe("V-010");
+    expect(incrementVoucherNumber("INV-2026-099")).toBe("INV-2026-100");
+    expect(incrementVoucherNumber("42")).toBe("43");
+
+    const localStorage = createMemoryStorage();
+    vi.stubGlobal("window", { localStorage });
+
+    expect(loadLastVoucherNumber()).toBe("");
+    expect(getNextVoucherNumber()).toBe("V-001");
+
+    expect(saveLastVoucherNumber("V-007")).toBe(true);
+    expect(localStorage.getItem(VOUCHER_SEQUENCE_STORAGE_KEY)).toBe("V-007");
+    expect(loadLastVoucherNumber()).toBe("V-007");
+    expect(getNextVoucherNumber()).toBe("V-008");
   });
 });

@@ -82,8 +82,14 @@ describe("VoucherPreviewCard", () => {
     expect(html).toContain("KBZPay");
     expect(html).toContain("Daw Mya Mya · 09-123456789");
     expect(html).toContain("data:image/png;base64,QRDATA==");
+    expect(html).toMatch(/size-20|size-24/);
     expect(html).toContain("Deliver after 3 PM");
     expect(html).toContain(sampleProfile.defaultFooter);
+
+    // Consistent vertical alignment across shop header, table Amount column, and totals rows
+    expect(html).not.toContain("sm:w-[82%]");
+    expect(html).toContain('data-totals-ledger="true"');
+    expect(html).toContain("pr-2.5");
   });
 
   it("switches all labels and currency formatting between Burmese and English", () => {
@@ -106,12 +112,61 @@ describe("VoucherPreviewCard", () => {
     expect(myHtml).toContain(myDict.paidInFull);
     expect(myHtml).toContain("36,000 ကျပ်");
     expect(myHtml).toContain("0 ကျပ်");
+    // Consistent Burmese terminology between form and receipt preview
+    expect(myDict.qtyCol).toBe(myDict.quantity);
+    expect(myHtml).toContain(myDict.quantity);
   });
 
-  it("renders fallbacks cleanly for empty profile/order and applies overflow-safe table wrapping", () => {
+  it("filters displayed payment accounts based on order.selectedPaymentAccountIds", () => {
+    const multiProfile: ShopProfile = {
+      ...sampleProfile,
+      paymentAccounts: [
+        ...sampleProfile.paymentAccounts,
+        {
+          id: "pay-2",
+          label: "WavePay",
+          accountName: "U Ba",
+          accountNumber: "09-999888777",
+        },
+      ],
+    };
+
+    const filteredHtml = renderToStaticMarkup(
+      <VoucherPreviewCard
+        dictionary={getDictionary("en")}
+        language="en"
+        shopProfile={multiProfile}
+        order={{ ...sampleOrder, selectedPaymentAccountIds: ["pay-2"] }}
+      />,
+    );
+
+    expect(filteredHtml).not.toContain("KBZPay");
+    expect(filteredHtml).toContain("WavePay");
+
+    const noneHtml = renderToStaticMarkup(
+      <VoucherPreviewCard
+        dictionary={getDictionary("en")}
+        language="en"
+        shopProfile={multiProfile}
+        order={{ ...sampleOrder, selectedPaymentAccountIds: [] }}
+      />,
+    );
+
+    expect(noneHtml).not.toContain("KBZPay");
+    expect(noneHtml).not.toContain("WavePay");
+  });
+
+  it("omits empty Bill To and dash placeholders and falls back to readable ink for light accent colors", () => {
     const enDict = getDictionary("en");
-    const emptyProfile = createDefaultShopProfile();
-    const emptyOrder = createDefaultVoucherOrder("2026-11-25");
+    const emptyProfile = {
+      ...createDefaultShopProfile(),
+      accentColor: "#fef08a",
+    };
+    const emptyOrder = {
+      ...createDefaultVoucherOrder("2026-11-25"),
+      date: "",
+      voucherNumber: "",
+    };
 
     const html = renderToStaticMarkup(
       <VoucherPreviewCard
@@ -127,6 +182,9 @@ describe("VoucherPreviewCard", () => {
     expect(html).toContain(enDict.thankYouFallback);
     expect(html).toContain("table-fixed");
     expect(html).toContain("wrap-anywhere");
+    expect(html).not.toContain(enDict.billToLabel);
+    expect(html).not.toContain(">—<");
+    expect(html).toContain("#1c1917");
     expect(html).not.toContain(enDict.discountLabel);
     expect(html).not.toContain(enDict.deliveryFeeLabel);
     expect(html).not.toContain(enDict.depositLabel);

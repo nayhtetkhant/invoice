@@ -139,9 +139,12 @@ export function createDefaultShopProfile(): ShopProfile {
   };
 }
 
-export function createDefaultVoucherOrder(date = getTodayIsoDate()): VoucherOrder {
+export function createDefaultVoucherOrder(
+  date = getTodayIsoDate(),
+  voucherNumber = "",
+): VoucherOrder {
   return {
-    voucherNumber: "",
+    voucherNumber,
     date,
     customer: {
       name: "",
@@ -182,6 +185,60 @@ function sanitizeLineItem(item: Partial<VoucherLineItem> | undefined): VoucherLi
   };
 }
 
+export interface AccentTokens {
+  base: string;
+  ink: string;
+  onAccent: string;
+  tint: string;
+}
+
+function normalizeHexColor(value: string | undefined): string {
+  const trimmed = value?.trim() ?? "";
+  if (/^#[0-9a-fA-F]{6}$/.test(trimmed)) {
+    return trimmed.toLowerCase();
+  }
+  if (/^#[0-9a-fA-F]{3}$/.test(trimmed)) {
+    const [, r, g, b] = trimmed.toLowerCase();
+    return `#${r}${r}${g}${g}${b}${b}`;
+  }
+  return DEFAULT_ACCENT_COLOR;
+}
+
+function getRelativeLuminance(hex: string): number {
+  const toLinear = (channelHex: string) => {
+    const srgb = Number.parseInt(channelHex, 16) / 255;
+    return srgb <= 0.03928
+      ? srgb / 12.92
+      : ((srgb + 0.055) / 1.055) ** 2.4;
+  };
+  const r = toLinear(hex.slice(1, 3));
+  const g = toLinear(hex.slice(3, 5));
+  const b = toLinear(hex.slice(5, 7));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+/** Derives contrast-safe ink, foreground, and soft tint colors from any shop accent hex. */
+export function getAccentTokens(accentColor?: string): AccentTokens {
+  const base = normalizeHexColor(accentColor);
+  const isLight = getRelativeLuminance(base) > 0.45;
+  return {
+    base,
+    ink: isLight ? "#1c1917" : base,
+    onAccent: isLight ? "#1c1917" : "#ffffff",
+    tint: isLight ? `${base}33` : `${base}14`,
+  };
+}
+
+/** Strips non-numeric characters from text input, preserving digits and at most one decimal point. */
+export function sanitizeNumericText(raw: string): string {
+  const cleaned = raw.replace(/[^0-9.]/g, "");
+  const dotIndex = cleaned.indexOf(".");
+  if (dotIndex === -1) {
+    return cleaned;
+  }
+  return `${cleaned.slice(0, dotIndex + 1)}${cleaned.slice(dotIndex + 1).replace(/\./g, "")}`;
+}
+
 /** Normalizes form or partial order values into a valid, non-negative VoucherOrder. */
 export function sanitizeVoucherOrder(
   order: Partial<VoucherOrder> | undefined,
@@ -189,6 +246,14 @@ export function sanitizeVoucherOrder(
   const items = Array.isArray(order?.items)
     ? order.items.map((item) => sanitizeLineItem(item))
     : [createEmptyLineItem()];
+
+  const selectedPaymentAccountIds = Array.isArray(
+    order?.selectedPaymentAccountIds,
+  )
+    ? order.selectedPaymentAccountIds.filter(
+        (id): id is string => typeof id === "string",
+      )
+    : undefined;
 
   return {
     voucherNumber: sanitizeString(order?.voucherNumber),
@@ -204,5 +269,8 @@ export function sanitizeVoucherOrder(
     deliveryFee: sanitizeNonNegative(Number(order?.deliveryFee)),
     deposit: sanitizeNonNegative(Number(order?.deposit)),
     notes: sanitizeString(order?.notes),
+    ...(selectedPaymentAccountIds !== undefined
+      ? { selectedPaymentAccountIds }
+      : {}),
   };
 }

@@ -6,6 +6,7 @@ import {
 } from "@/types/voucher";
 
 export const SHOP_PROFILE_STORAGE_KEY = "mm-voucher-shop-profile-v1";
+export const VOUCHER_SEQUENCE_STORAGE_KEY = "mm-voucher-last-number-v1";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -132,4 +133,56 @@ export function resetShopProfile(): ShopProfile {
     }
   }
   return createDefaultShopProfile();
+}
+
+/** Increments a voucher number string (e.g. V-001 -> V-002), defaulting to V-001 when empty. */
+export function incrementVoucherNumber(lastNumber?: string): string {
+  const trimmed = lastNumber?.trim() ?? "";
+  if (!trimmed) {
+    return "V-001";
+  }
+
+  const match = trimmed.match(/^(.*?)(\d+)$/);
+  if (!match) {
+    return `${trimmed}-2`;
+  }
+
+  const [, prefix, digits] = match;
+  const nextValue = Number.parseInt(digits, 10) + 1;
+  return `${prefix}${String(nextValue).padStart(digits.length, "0")}`;
+}
+
+/** Loads the last persisted voucher number from localStorage, returning "" if unavailable. */
+export function loadLastVoucherNumber(): string {
+  const storage = getBrowserStorage();
+  if (!storage) {
+    return "";
+  }
+
+  try {
+    return storage.getItem(VOUCHER_SEQUENCE_STORAGE_KEY)?.trim() ?? "";
+  } catch {
+    return "";
+  }
+}
+
+/** Persists the latest used voucher number in localStorage so the next voucher auto-increments. */
+export function saveLastVoucherNumber(voucherNumber: string): boolean {
+  const trimmed = voucherNumber.trim();
+  const storage = getBrowserStorage();
+  if (!storage || !trimmed) {
+    return false;
+  }
+
+  try {
+    storage.setItem(VOUCHER_SEQUENCE_STORAGE_KEY, trimmed);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/** Computes the next voucher number from the last persisted sequence in localStorage. */
+export function getNextVoucherNumber(): string {
+  return incrementVoucherNumber(loadLastVoucherNumber());
 }

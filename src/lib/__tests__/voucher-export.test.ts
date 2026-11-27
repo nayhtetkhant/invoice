@@ -3,6 +3,7 @@ import {
   buildVoucherFilename,
   calculateCaptureScale,
   calculatePdfPlacement,
+  copyVoucherImage,
   exportVoucher,
 } from "@/lib/voucher-export";
 
@@ -147,6 +148,31 @@ describe("exportVoucher", () => {
       2,
       pdfBlob,
       "voucher-V-009-2026-11-25.pdf",
+    );
+  });
+});
+
+describe("copyVoucherImage", () => {
+  it("captures PNG blob and writes it via the injected clipboard writer", async () => {
+    const fakeCanvas = { width: 1380, height: 1920 } as HTMLCanvasElement;
+    const pngBlob = new Blob(["png"], { type: "image/png" });
+    const captureCanvas = vi.fn().mockResolvedValue(fakeCanvas);
+    const toPngBlob = vi.fn().mockResolvedValue(pngBlob);
+    const writeImageBlob = vi.fn().mockResolvedValue(undefined);
+
+    await copyVoucherImage(
+      { element: {} as HTMLElement },
+      { captureCanvas, toPngBlob, writeImageBlob },
+    );
+
+    expect(captureCanvas).toHaveBeenCalledTimes(1);
+    expect(toPngBlob).toHaveBeenCalledWith(fakeCanvas);
+    expect(writeImageBlob).toHaveBeenCalledWith(pngBlob);
+  });
+
+  it("throws when the preview element is missing", async () => {
+    await expect(copyVoucherImage({ element: null })).rejects.toThrow(
+      /preview element/i,
     );
   });
 });
