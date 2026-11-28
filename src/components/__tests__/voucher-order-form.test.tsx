@@ -326,8 +326,12 @@ describe("VoucherOrderForm", () => {
       />,
     );
 
-    expect(html).toContain("md:gap-x-6 md:gap-y-4");
-    expect(html).toContain("flex min-h-7 items-center");
+    expect(html).toContain("gap-x-6 gap-y-2");
+    expect(html).toContain("md:col-start-1 md:row-start-1");
+    expect(html).toContain("md:col-start-1 md:row-start-2");
+    expect(html).toContain("md:col-start-2 md:row-start-1");
+    expect(html).toContain("md:col-start-2 md:row-start-2");
+    expect(html).toContain("sm:grid-cols-2 md:grid-cols-1");
     expect(html).toMatch(/<input[^>]*id="paper-shop-name"[^>]*h-10[^"]*sm:h-9/);
     expect(html).toContain("md:items-center md:gap-2.5 text-xs font-semibold leading-relaxed");
     expect(html).not.toContain("uppercase tracking-wider");

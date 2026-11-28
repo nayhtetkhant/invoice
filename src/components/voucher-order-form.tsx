@@ -523,102 +523,102 @@ export function VoucherOrderForm({
         </div>
 
         {/* Side-by-Side From (Shop) & Bill To (Customer) */}
-        <div className="grid grid-cols-1 gap-4 border-t border-stone-200/80 pt-5 md:grid-cols-2 md:gap-x-6 md:gap-y-4">
-          {/* From: Shop Details */}
-          <section className="space-y-2">
-            <div className="flex min-h-7 flex-wrap items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <h3
-                  className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
-                >
-                  <Store className="size-3.5 text-stone-500" />
-                  <span>{dictionary.fromLabel}</span>
-                </h3>
-                {hasShopSavedNotice ? (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700">
-                    <Check className="size-3" />
-                    <span>{dictionary.shopProfileSavedNotice}</span>
-                  </span>
-                ) : null}
-              </div>
-
-              {onOpenPaymentSettings || onOpenShopSettings ? (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={onOpenPaymentSettings ?? onOpenShopSettings}
-                  className="hidden h-7 gap-1 px-2 text-[11px] font-medium text-stone-600 hover:bg-stone-100 hover:text-stone-900 md:inline-flex lg:hidden"
-                >
-                  <CreditCard className="size-3" />
-                  <span>{dictionary.managePaymentAccounts}</span>
-                </Button>
-              ) : null}
-            </div>
-
-            <div className="space-y-2">
-              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                <div>
-                  <Label htmlFor="paper-shop-name" className="sr-only">
-                    {dictionary.shopName}
-                  </Label>
-                  <Input
-                    id="paper-shop-name"
-                    value={resolvedProfile.shopName}
-                    onChange={(event) =>
-                      updateShopField({ shopName: event.target.value })
-                    }
-                    className={`h-10 font-medium sm:h-9 ${PAPER_INPUT_CLASS}`}
-                    placeholder={dictionary.shopNamePlaceholder}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="paper-shop-phones" className="sr-only">
-                    {dictionary.shopPhones}
-                  </Label>
-                  <Input
-                    id="paper-shop-phones"
-                    type="tel"
-                    inputMode="tel"
-                    value={resolvedProfile.phones}
-                    onChange={(event) =>
-                      updateShopField({ phones: event.target.value })
-                    }
-                    className={`h-10 sm:h-9 ${PAPER_INPUT_CLASS}`}
-                    placeholder={dictionary.shopPhonesPlaceholder}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="paper-shop-address" className="sr-only">
-                  {dictionary.shopAddressOrSocial}
-                </Label>
-                <Input
-                  id="paper-shop-address"
-                  value={resolvedProfile.addressOrSocial}
-                  onChange={(event) =>
-                    updateShopField({ addressOrSocial: event.target.value })
-                  }
-                  className={`h-10 text-sm sm:h-9 ${PAPER_INPUT_CLASS}`}
-                  placeholder={dictionary.shopAddressOrSocialPlaceholder}
-                />
-              </div>
-            </div>
-          </section>
-
-          {/* Bill To: Customer Details */}
-          <section className="space-y-2">
-            <div className="flex min-h-7 items-center">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-2 border-t border-stone-200/80 pt-5 md:grid-cols-2">
+          {/* From: Shop Details Header */}
+          <div className="flex min-h-7 flex-wrap items-center justify-between gap-2 md:col-start-1 md:row-start-1 md:self-end">
+            <div className="flex items-center gap-2">
               <h3
                 className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
               >
-                <User className="size-3.5 text-stone-500" />
-                <span>{dictionary.billToLabel}</span>
+                <Store className="size-3.5 text-stone-500" />
+                <span>{dictionary.fromLabel}</span>
               </h3>
+              {hasShopSavedNotice ? (
+                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-700">
+                  <Check className="size-3" />
+                  <span>{dictionary.shopProfileSavedNotice}</span>
+                </span>
+              ) : null}
             </div>
 
+            {onOpenPaymentSettings || onOpenShopSettings ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={onOpenPaymentSettings ?? onOpenShopSettings}
+                className="hidden h-7 gap-1 px-2 text-[11px] font-medium text-stone-600 hover:bg-stone-100 hover:text-stone-900 md:inline-flex lg:hidden"
+              >
+                <CreditCard className="size-3" />
+                <span>{dictionary.managePaymentAccounts}</span>
+              </Button>
+            ) : null}
+          </div>
+
+          {/* From: Shop Details Inputs */}
+          <div className="mb-2 min-w-0 space-y-2 md:col-start-1 md:row-start-2">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <div className="min-w-0">
+                <Label htmlFor="paper-shop-name" className="sr-only">
+                  {dictionary.shopName}
+                </Label>
+                <Input
+                  id="paper-shop-name"
+                  value={resolvedProfile.shopName}
+                  onChange={(event) =>
+                    updateShopField({ shopName: event.target.value })
+                  }
+                  className={`h-10 font-medium sm:h-9 ${PAPER_INPUT_CLASS}`}
+                  placeholder={dictionary.shopNamePlaceholder}
+                />
+              </div>
+              <div className="min-w-0">
+                <Label htmlFor="paper-shop-phones" className="sr-only">
+                  {dictionary.shopPhones}
+                </Label>
+                <Input
+                  id="paper-shop-phones"
+                  type="tel"
+                  inputMode="tel"
+                  value={resolvedProfile.phones}
+                  onChange={(event) =>
+                    updateShopField({ phones: event.target.value })
+                  }
+                  className={`h-10 sm:h-9 ${PAPER_INPUT_CLASS}`}
+                  placeholder={dictionary.shopPhonesPlaceholder}
+                />
+              </div>
+            </div>
+
+            <div className="min-w-0">
+              <Label htmlFor="paper-shop-address" className="sr-only">
+                {dictionary.shopAddressOrSocial}
+              </Label>
+              <Input
+                id="paper-shop-address"
+                value={resolvedProfile.addressOrSocial}
+                onChange={(event) =>
+                  updateShopField({ addressOrSocial: event.target.value })
+                }
+                className={`h-10 text-sm sm:h-9 ${PAPER_INPUT_CLASS}`}
+                placeholder={dictionary.shopAddressOrSocialPlaceholder}
+              />
+            </div>
+          </div>
+
+          {/* Bill To: Customer Details Header */}
+          <div className="flex min-h-7 items-center md:col-start-2 md:row-start-1 md:self-end">
+            <h3
+              className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
+            >
+              <User className="size-3.5 text-stone-500" />
+              <span>{dictionary.billToLabel}</span>
+            </h3>
+          </div>
+
+          {/* Bill To: Customer Details Inputs */}
+          <div className="mb-2 min-w-0 md:col-start-2 md:row-start-2">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-1">
               <div className="min-w-0">
                 <Label htmlFor="customer-name" className="sr-only">
                   {dictionary.customerName}
@@ -631,7 +631,7 @@ export function VoucherOrderForm({
                 />
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <Label htmlFor="customer-phone" className="sr-only">
                   {dictionary.customerPhone}
                 </Label>
@@ -645,7 +645,7 @@ export function VoucherOrderForm({
                 />
               </div>
             </div>
-          </section>
+          </div>
 
           <div className="w-full md:col-span-2">
             {!isAddressExpanded ? (
