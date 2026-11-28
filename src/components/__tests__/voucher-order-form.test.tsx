@@ -307,6 +307,36 @@ describe("VoucherOrderForm", () => {
     expect(expandedHtml).toMatch(
       /<div class="w-full md:col-span-2">.*?<textarea[^>]*w-full[^>]*id="customer-address"/,
     );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="paper-shop-name">${enDict.shopName}</label>`,
+      ),
+    );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="paper-shop-phones">`,
+      ),
+    );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="paper-shop-address">${enDict.shopAddressOrSocial}</label>`,
+      ),
+    );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="customer-name">${enDict.customerName}</label>`,
+      ),
+    );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="customer-phone">${enDict.customerPhone}</label>`,
+      ),
+    );
+    expect(expandedHtml).toMatch(
+      new RegExp(
+        `<label[^>]*class="[^"]*text-xs font-medium text-stone-600"[^>]*for="customer-address">${enDict.customerAddress}</label>`,
+      ),
+    );
   });
 
   it("formats spacing consistently and avoids letter-spacing/uppercase on Burmese headings", () => {

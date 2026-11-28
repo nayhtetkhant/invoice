@@ -557,9 +557,12 @@ export function VoucherOrderForm({
 
           {/* From: Shop Details Inputs */}
           <div className="mb-2 min-w-0 space-y-2 md:col-start-1 md:row-start-2">
-            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-              <div className="min-w-0">
-                <Label htmlFor="paper-shop-name" className="sr-only">
+            <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 sm:items-end">
+              <div className="min-w-0 space-y-1.5">
+                <Label
+                  htmlFor="paper-shop-name"
+                  className="text-xs font-medium text-stone-600"
+                >
                   {dictionary.shopName}
                 </Label>
                 <Input
@@ -572,8 +575,11 @@ export function VoucherOrderForm({
                   placeholder={dictionary.shopNamePlaceholder}
                 />
               </div>
-              <div className="min-w-0">
-                <Label htmlFor="paper-shop-phones" className="sr-only">
+              <div className="min-w-0 space-y-1.5">
+                <Label
+                  htmlFor="paper-shop-phones"
+                  className="text-xs font-medium text-stone-600"
+                >
                   {dictionary.shopPhones}
                 </Label>
                 <Input
@@ -590,8 +596,11 @@ export function VoucherOrderForm({
               </div>
             </div>
 
-            <div className="min-w-0">
-              <Label htmlFor="paper-shop-address" className="sr-only">
+            <div className="min-w-0 space-y-1.5">
+              <Label
+                htmlFor="paper-shop-address"
+                className="text-xs font-medium text-stone-600"
+              >
                 {dictionary.shopAddressOrSocial}
               </Label>
               <Input
@@ -619,8 +628,11 @@ export function VoucherOrderForm({
           {/* Bill To: Customer Details Inputs */}
           <div className="mb-2 min-w-0 md:col-start-2 md:row-start-2">
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-1">
-              <div className="min-w-0">
-                <Label htmlFor="customer-name" className="sr-only">
+              <div className="min-w-0 space-y-1.5">
+                <Label
+                  htmlFor="customer-name"
+                  className="text-xs font-medium text-stone-600"
+                >
                   {dictionary.customerName}
                 </Label>
                 <Input
@@ -631,8 +643,11 @@ export function VoucherOrderForm({
                 />
               </div>
 
-              <div className="min-w-0">
-                <Label htmlFor="customer-phone" className="sr-only">
+              <div className="min-w-0 space-y-1.5">
+                <Label
+                  htmlFor="customer-phone"
+                  className="text-xs font-medium text-stone-600"
+                >
                   {dictionary.customerPhone}
                 </Label>
                 <Input
@@ -660,8 +675,11 @@ export function VoucherOrderForm({
                 <span>{dictionary.addAddress}</span>
               </Button>
             ) : (
-              <div>
-                <Label htmlFor="customer-address" className="sr-only">
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="customer-address"
+                  className="text-xs font-medium text-stone-600"
+                >
                   {dictionary.customerAddress}
                 </Label>
                 <Textarea
