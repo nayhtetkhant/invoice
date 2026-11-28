@@ -253,10 +253,59 @@ describe("VoucherOrderForm", () => {
     // Totals rows wrap safely on narrow viewports
     expect(html).toContain("flex flex-wrap items-center justify-between gap-2");
     // Add address renders as a clearly styled colored button with transition, and full-screen sections stay unhidden
-    expect(html).toContain("border-teal-200 bg-teal-50/70");
+    expect(html).toContain("border-teal-300 bg-teal-50");
     expect(html).toContain("text-teal-600");
     expect(html).not.toContain("hidden md:block md:w-44");
     expect(html).not.toContain("hidden space-y-2 md:block");
     expect(html).not.toContain("hidden space-y-1 lg:block");
+  });
+
+  it("renders the delivery address button and expanded textarea at full paper width below From and Bill To", () => {
+    const enDict = getDictionary("en");
+    const collapsedOrder = createDefaultVoucherOrder("2026-11-25");
+    const collapsedHtml = renderToStaticMarkup(
+      <VoucherOrderForm
+        dictionary={enDict}
+        language="en"
+        accentColor="#0f766e"
+        order={collapsedOrder}
+        onOrderChange={() => {}}
+      />,
+    );
+
+    expect(collapsedHtml).toContain('class="w-full md:col-span-2"');
+    expect(collapsedHtml).toMatch(
+      new RegExp(
+        `<div class="w-full md:col-span-2">\\s*<button[^>]*flex[^>]*w-full[^>]*justify-center[^>]*>.*?${enDict.addAddress}`,
+      ),
+    );
+    const phoneIdx = collapsedHtml.indexOf('id="customer-phone"');
+    const addAddrIdx = collapsedHtml.indexOf(enDict.addAddress);
+    const itemsIdx = collapsedHtml.indexOf('data-line-items-table="true"');
+    expect(addAddrIdx).toBeGreaterThan(phoneIdx);
+    expect(itemsIdx).toBeGreaterThan(addAddrIdx);
+
+    const expandedOrder = {
+      ...createDefaultVoucherOrder("2026-11-25"),
+      customer: {
+        name: "Ma Su",
+        phone: "09-123456789",
+        address: "Kamayut Township, Yangon",
+      },
+    };
+    const expandedHtml = renderToStaticMarkup(
+      <VoucherOrderForm
+        dictionary={enDict}
+        language="en"
+        accentColor="#0f766e"
+        order={expandedOrder}
+        onOrderChange={() => {}}
+      />,
+    );
+
+    expect(expandedHtml).toContain('class="w-full md:col-span-2"');
+    expect(expandedHtml).toMatch(
+      /<div class="w-full md:col-span-2">.*?<textarea[^>]*w-full[^>]*id="customer-address"/,
+    );
   });
 });

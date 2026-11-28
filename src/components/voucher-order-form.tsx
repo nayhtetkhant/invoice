@@ -643,20 +643,20 @@ export function VoucherOrderForm({
                 />
               </div>
             </div>
+          </section>
 
+          <div className="w-full md:col-span-2">
             {!isAddressExpanded ? (
-              <div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="h-8 gap-1.5 border-teal-200 bg-teal-50/70 px-2.5 text-xs font-medium text-teal-900 shadow-2xs transition-all duration-150 hover:border-teal-300 hover:bg-teal-100/80 active:scale-[0.98]"
-                  onClick={() => setShowAddress(true)}
-                >
-                  <MapPin className="size-3.5 text-teal-600" />
-                  <span>{dictionary.addAddress}</span>
-                </Button>
-              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                className="flex min-h-9 w-full justify-center gap-1.5 border-teal-300 bg-teal-50 px-3 text-xs font-medium text-teal-900 shadow-2xs transition-all duration-150 hover:border-teal-400 hover:bg-teal-100/80 active:scale-[0.99]"
+                onClick={() => setShowAddress(true)}
+              >
+                <MapPin className="size-3.5 text-teal-600" />
+                <span>{dictionary.addAddress}</span>
+              </Button>
             ) : (
               <div>
                 <Label htmlFor="customer-address" className="sr-only">
@@ -665,13 +665,13 @@ export function VoucherOrderForm({
                 <Textarea
                   id="customer-address"
                   rows={2}
-                  className={PAPER_INPUT_CLASS}
+                  className={`w-full ${PAPER_INPUT_CLASS}`}
                   placeholder={dictionary.customerAddressPlaceholder}
                   {...form.register("customer.address")}
                 />
               </div>
             )}
-          </section>
+          </div>
         </div>
 
         {/* Line Items Table */}
