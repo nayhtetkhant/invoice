@@ -283,170 +283,170 @@ export function ShopProfileForm({
           {!isPaymentOnly ? (
             <>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="shop-name"
-                className="text-xs font-medium text-stone-700"
-              >
-                {dictionary.shopName}
-              </Label>
-              <Input
-                id="shop-name"
-                className="h-10 bg-white"
-                placeholder={dictionary.shopNamePlaceholder}
-                {...form.register("shopName")}
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <Label
-                htmlFor="shop-phones"
-                className="text-xs font-medium text-stone-700"
-              >
-                {dictionary.shopPhones}
-              </Label>
-              <Input
-                id="shop-phones"
-                type="tel"
-                inputMode="tel"
-                className="h-10 bg-white"
-                placeholder={dictionary.shopPhonesPlaceholder}
-                {...form.register("phones")}
-              />
-            </div>
-          </div>
-
-          <div className="space-y-1.5">
-            <Label
-              htmlFor="shop-address-social"
-              className="text-xs font-medium text-stone-700"
-            >
-              {dictionary.shopAddressOrSocial}
-            </Label>
-            <Textarea
-              id="shop-address-social"
-              rows={2}
-              className="bg-white"
-              placeholder={dictionary.shopAddressOrSocialPlaceholder}
-              {...form.register("addressOrSocial")}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-            <ImageUploadField
-              id="shop-logo-upload"
-              label={dictionary.shopLogo}
-              uploadLabel={dictionary.uploadLogo}
-              removeLabel={dictionary.removeLogo}
-              value={logoDataUrl}
-              preset="logo"
-              dictionary={dictionary}
-              onChange={(dataUrl) =>
-                form.setValue("logoDataUrl", dataUrl, {
-                  shouldDirty: true,
-                  shouldTouch: true,
-                })
-              }
-            />
-
-            <div className="space-y-2">
-              <Label className="text-xs font-medium text-stone-700">
-                {dictionary.accentColor}
-              </Label>
-              <div className="flex flex-wrap items-center gap-2">
-                {ACCENT_COLOR_PRESETS.map((color) => {
-                  const isSelected =
-                    accentTokens.base.toLowerCase() === color.toLowerCase();
-                  const colorTokens = getAccentTokens(color);
-                  return (
-                    <button
-                      key={color}
-                      type="button"
-                      aria-label={`${dictionary.accentColor} ${color}`}
-                      aria-pressed={isSelected}
-                      onClick={() =>
-                        form.setValue("accentColor", color, {
-                          shouldDirty: true,
-                          shouldTouch: true,
-                        })
-                      }
-                      className="flex size-8 items-center justify-center rounded-full border border-black/10 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                      style={{
-                        backgroundColor: color,
-                        boxShadow: isSelected
-                          ? `0 0 0 2px #FFFEFB, 0 0 0 4px ${color}`
-                          : undefined,
-                      }}
-                    >
-                      {isSelected ? (
-                        <Check
-                          className="size-3.5"
-                          style={{ color: colorTokens.onAccent }}
-                        />
-                      ) : null}
-                    </button>
-                  );
-                })}
-
-                <label
-                  htmlFor="shop-accent-custom"
-                  className="relative inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-full border border-stone-300 bg-white px-2.5 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-100"
-                  style={
-                    isCustomColorSelected
-                      ? {
-                          boxShadow: `0 0 0 2px #FFFEFB, 0 0 0 4px ${accentTokens.ink}`,
-                        }
-                      : undefined
-                  }
-                >
-                  <input
-                    id="shop-accent-custom"
-                    type="color"
-                    value={accentTokens.base}
-                    onChange={(event) =>
-                      form.setValue("accentColor", event.target.value, {
-                        shouldDirty: true,
-                        shouldTouch: true,
-                      })
-                    }
-                    className="sr-only"
-                  />
-                  <span
-                    className="flex size-4 items-center justify-center rounded-full border border-black/15"
-                    style={{ backgroundColor: accentTokens.base }}
+                <div className="space-y-1.5">
+                  <Label
+                    htmlFor="shop-name"
+                    className="text-xs font-medium text-stone-700"
                   >
-                    {isCustomColorSelected ? (
-                      <Check
-                        data-custom-color-check="true"
-                        className="size-2.5"
-                        style={{ color: accentTokens.onAccent }}
-                      />
-                    ) : null}
-                  </span>
-                  <Palette className="size-3.5 text-stone-500" />
-                  <span>{dictionary.customColor}</span>
-                </label>
+                    {dictionary.shopName}
+                  </Label>
+                  <Input
+                    id="shop-name"
+                    className="h-10 bg-white"
+                    placeholder={dictionary.shopNamePlaceholder}
+                    {...form.register("shopName")}
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <Label
+                    htmlFor="shop-phones"
+                    className="text-xs font-medium text-stone-700"
+                  >
+                    {dictionary.shopPhones}
+                  </Label>
+                  <Input
+                    id="shop-phones"
+                    type="tel"
+                    inputMode="tel"
+                    className="h-10 bg-white"
+                    placeholder={dictionary.shopPhonesPlaceholder}
+                    {...form.register("phones")}
+                  />
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div className="space-y-1.5">
-            <Label
-              htmlFor="shop-default-footer"
-              className="text-xs font-medium text-stone-700"
-            >
-              {dictionary.defaultFooter}
-            </Label>
-              <Textarea
-                id="shop-default-footer"
-                rows={2}
-                className="bg-white"
-                placeholder={dictionary.defaultFooterPlaceholder}
-                {...form.register("defaultFooter")}
-              />
-            </div>
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="shop-address-social"
+                  className="text-xs font-medium text-stone-700"
+                >
+                  {dictionary.shopAddressOrSocial}
+                </Label>
+                <Textarea
+                  id="shop-address-social"
+                  rows={2}
+                  className="bg-white"
+                  placeholder={dictionary.shopAddressOrSocialPlaceholder}
+                  {...form.register("addressOrSocial")}
+                />
+              </div>
 
-            <Separator className="bg-stone-200/80" />
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                <ImageUploadField
+                  id="shop-logo-upload"
+                  label={dictionary.shopLogo}
+                  uploadLabel={dictionary.uploadLogo}
+                  removeLabel={dictionary.removeLogo}
+                  value={logoDataUrl}
+                  preset="logo"
+                  dictionary={dictionary}
+                  onChange={(dataUrl) =>
+                    form.setValue("logoDataUrl", dataUrl, {
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
+                  }
+                />
+
+                <div className="space-y-2">
+                  <Label className="text-xs font-medium text-stone-700">
+                    {dictionary.accentColor}
+                  </Label>
+                  <div className="flex flex-wrap items-center gap-2">
+                    {ACCENT_COLOR_PRESETS.map((color) => {
+                      const isSelected =
+                        accentTokens.base.toLowerCase() === color.toLowerCase();
+                      const colorTokens = getAccentTokens(color);
+                      return (
+                        <button
+                          key={color}
+                          type="button"
+                          aria-label={`${dictionary.accentColor} ${color}`}
+                          aria-pressed={isSelected}
+                          onClick={() =>
+                            form.setValue("accentColor", color, {
+                              shouldDirty: true,
+                              shouldTouch: true,
+                            })
+                          }
+                          className="flex size-8 items-center justify-center rounded-full border border-black/10 transition-transform active:scale-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                          style={{
+                            backgroundColor: color,
+                            boxShadow: isSelected
+                              ? `0 0 0 2px #FFFEFB, 0 0 0 4px ${color}`
+                              : undefined,
+                          }}
+                        >
+                          {isSelected ? (
+                            <Check
+                              className="size-3.5"
+                              style={{ color: colorTokens.onAccent }}
+                            />
+                          ) : null}
+                        </button>
+                      );
+                    })}
+
+                    <label
+                      htmlFor="shop-accent-custom"
+                      className="relative inline-flex min-h-9 cursor-pointer items-center gap-1.5 rounded-full border border-stone-300 bg-white px-2.5 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-100"
+                      style={
+                        isCustomColorSelected
+                          ? {
+                              boxShadow: `0 0 0 2px #FFFEFB, 0 0 0 4px ${accentTokens.ink}`,
+                            }
+                          : undefined
+                      }
+                    >
+                      <input
+                        id="shop-accent-custom"
+                        type="color"
+                        value={accentTokens.base}
+                        onChange={(event) =>
+                          form.setValue("accentColor", event.target.value, {
+                            shouldDirty: true,
+                            shouldTouch: true,
+                          })
+                        }
+                        className="sr-only"
+                      />
+                      <span
+                        className="flex size-4 items-center justify-center rounded-full border border-black/15"
+                        style={{ backgroundColor: accentTokens.base }}
+                      >
+                        {isCustomColorSelected ? (
+                          <Check
+                            data-custom-color-check="true"
+                            className="size-2.5"
+                            style={{ color: accentTokens.onAccent }}
+                          />
+                        ) : null}
+                      </span>
+                      <Palette className="size-3.5 text-stone-500" />
+                      <span>{dictionary.customColor}</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label
+                  htmlFor="shop-default-footer"
+                  className="text-xs font-medium text-stone-700"
+                >
+                  {dictionary.defaultFooter}
+                </Label>
+                <Textarea
+                  id="shop-default-footer"
+                  rows={2}
+                  className="bg-white"
+                  placeholder={dictionary.defaultFooterPlaceholder}
+                  {...form.register("defaultFooter")}
+                />
+              </div>
+
+              <Separator className="bg-stone-200/80" />
             </>
           ) : null}
 
@@ -494,7 +494,7 @@ export function ShopProfileForm({
                       </div>
 
                       <div className="grid grid-cols-1 gap-3">
-                        <div className="space-y-1">
+                        <div className="space-y-1.5">
                           <Label
                             htmlFor={`payment-label-${index}`}
                             className="text-xs font-medium text-stone-700"
@@ -512,7 +512,7 @@ export function ShopProfileForm({
                         </div>
 
                         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                          <div className="space-y-1">
+                          <div className="space-y-1.5">
                             <Label
                               htmlFor={`payment-account-name-${index}`}
                               className="text-xs font-medium text-stone-700"
@@ -531,7 +531,7 @@ export function ShopProfileForm({
                             />
                           </div>
 
-                          <div className="space-y-1">
+                          <div className="space-y-1.5">
                             <Label
                               htmlFor={`payment-account-number-${index}`}
                               className="text-xs font-medium text-stone-700"

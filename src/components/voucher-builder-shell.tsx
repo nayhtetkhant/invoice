@@ -236,7 +236,11 @@ export function VoucherBuilderShell() {
       <header className="sticky top-0 z-30 border-b border-stone-200/90 bg-white/95 backdrop-blur-sm lg:static">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-2.5 sm:gap-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-baseline gap-2.5">
-            <h1 className="truncate text-sm leading-relaxed font-semibold tracking-tight text-stone-900 sm:text-base">
+            <h1
+              className={`truncate text-sm leading-relaxed font-semibold text-stone-900 sm:text-base ${
+                language === "en" ? "tracking-tight" : ""
+              }`}
+            >
               {dictionary.appTitle}
             </h1>
             <span
@@ -402,7 +406,7 @@ export function VoucherBuilderShell() {
             onCopyImage={handleCopyImage}
           />
 
-          <div className="mx-auto w-full max-w-[460px] space-y-4 rounded-md border border-stone-200/90 bg-white p-3.5 shadow-xs lg:max-w-none">
+          <div className="w-full space-y-4 rounded-md border border-stone-200/90 bg-white p-3.5 shadow-xs">
             <Button
               type="button"
               variant="outline"

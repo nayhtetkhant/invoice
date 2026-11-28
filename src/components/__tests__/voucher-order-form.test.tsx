@@ -308,4 +308,28 @@ describe("VoucherOrderForm", () => {
       /<div class="w-full md:col-span-2">.*?<textarea[^>]*w-full[^>]*id="customer-address"/,
     );
   });
+
+  it("formats spacing consistently and avoids letter-spacing/uppercase on Burmese headings", () => {
+    const myDict = getDictionary("my");
+    const order = {
+      ...createDefaultVoucherOrder("2026-11-25"),
+      items: [{ id: "i1", name: "ပစ္စည်း", quantity: 1, unitPrice: 10000 }],
+    };
+
+    const html = renderToStaticMarkup(
+      <VoucherOrderForm
+        dictionary={myDict}
+        language="my"
+        accentColor="#0f766e"
+        order={order}
+        onOrderChange={() => {}}
+      />,
+    );
+
+    expect(html).toContain("md:gap-x-6 md:gap-y-4");
+    expect(html).toContain("flex min-h-7 items-center");
+    expect(html).toMatch(/<input[^>]*id="paper-shop-name"[^>]*h-10[^"]*sm:h-9/);
+    expect(html).toContain("md:items-center md:gap-2.5 text-xs font-semibold leading-relaxed");
+    expect(html).not.toContain("uppercase tracking-wider");
+  });
 });

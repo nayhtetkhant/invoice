@@ -116,7 +116,7 @@ export function VoucherPreviewCard({
               )}
 
               <div className="min-w-0 flex-1 space-y-0.5">
-                <p className="wrap-anywhere text-base font-bold leading-snug tracking-tight text-stone-900">
+                <p className="wrap-anywhere text-base font-bold leading-snug text-stone-900">
                   {hasShopName
                     ? shopProfile.shopName
                     : dictionary.shopProfileSummaryEmpty}
@@ -330,7 +330,9 @@ export function VoucherPreviewCard({
                 {isPaidInFull ? (
                   <span
                     data-paid-stamp="true"
-                    className="inline-flex items-center gap-1 rounded border border-emerald-700/70 bg-white px-1.5 py-0.5 text-[10px] font-bold tracking-wide text-emerald-800"
+                    className={`inline-flex items-center gap-1 rounded border border-emerald-700/70 bg-white px-1.5 py-0.5 text-[10px] font-bold text-emerald-800 ${
+                      language === "en" ? "tracking-wide" : "leading-snug"
+                    }`}
                   >
                     <Check className="size-2.5" />
                     <span>{dictionary.paidInFull}</span>

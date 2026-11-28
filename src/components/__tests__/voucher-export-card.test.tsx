@@ -88,8 +88,11 @@ describe("VoucherExportCard", () => {
     );
 
     expect(html).toContain("px-1.5 py-1.5 text-center text-[11px]");
+    expect(html).toContain("leading-snug");
+    expect(html).not.toContain("leading-none");
     expect(html).toContain("sm:gap-1.5 sm:px-2 sm:text-xs");
     expect(html).not.toContain("truncate");
+    expect(html).not.toContain("max-w-[460px]");
   });
 
   it("keeps format button text single-line and gives export buttons distinct bordered styling and colored icons", () => {

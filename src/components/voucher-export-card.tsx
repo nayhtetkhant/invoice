@@ -174,7 +174,7 @@ export function VoucherExportCard({
   }
 
   return (
-    <div className="mx-auto w-full max-w-[460px] space-y-2 lg:max-w-none">
+    <div className="w-full space-y-2">
       <div className="space-y-2.5 rounded-md border border-stone-200/90 bg-white p-3 shadow-xs">
         <Button
           type="button"
@@ -213,7 +213,7 @@ export function VoucherExportCard({
                 type="button"
                 aria-pressed={isSelected}
                 onClick={() => handleFormatChange(option)}
-                className={`inline-flex min-h-9 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-md border px-1.5 py-1.5 text-center text-[11px] leading-none font-semibold transition-colors sm:gap-1.5 sm:px-2 sm:text-xs ${
+                className={`inline-flex min-h-9 min-w-0 items-center justify-center gap-1 whitespace-nowrap rounded-md border px-1.5 py-1.5 text-center text-[11px] leading-snug font-semibold transition-colors sm:gap-1.5 sm:px-2 sm:text-xs ${
                   isSelected ? styleTokens.active : styleTokens.inactive
                 }`}
               >

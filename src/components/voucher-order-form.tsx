@@ -427,12 +427,12 @@ export function VoucherOrderForm({
             />
           </div>
 
-          <div className="flex flex-col gap-2.5 md:items-end">
+          <div className="flex flex-col gap-2.5 sm:items-end">
             <h2
               className={
                 language === "en"
                   ? "text-2xl font-light tracking-wider text-stone-900 uppercase sm:text-3xl"
-                  : "text-xl font-bold tracking-tight text-stone-900 sm:text-2xl"
+                  : "text-xl font-bold leading-snug text-stone-900 sm:text-2xl"
               }
             >
               {dictionary.voucherHeading}
@@ -451,7 +451,7 @@ export function VoucherOrderForm({
                 </span>
                 <Input
                   id="voucher-number"
-                  className="h-9 w-full rounded-l-none border-stone-200 bg-white text-right font-mono tabular-nums md:w-36"
+                  className="h-9 w-full rounded-l-none border-stone-200 bg-white text-right font-mono tabular-nums md:w-44"
                   placeholder={dictionary.voucherNumberPlaceholder}
                   {...form.register("voucherNumber")}
                 />
@@ -470,7 +470,7 @@ export function VoucherOrderForm({
                 <Input
                   id="voucher-date"
                   type="date"
-                  className="h-9 w-full rounded-l-none border-stone-200 bg-white tabular-nums md:w-36"
+                  className="h-9 w-full rounded-l-none border-stone-200 bg-white tabular-nums md:w-44"
                   {...form.register("date")}
                 />
               </div>
@@ -523,10 +523,10 @@ export function VoucherOrderForm({
         </div>
 
         {/* Side-by-Side From (Shop) & Bill To (Customer) */}
-        <div className="grid grid-cols-1 gap-5 border-t border-stone-200/80 pt-5 md:grid-cols-2 md:gap-6">
+        <div className="grid grid-cols-1 gap-4 border-t border-stone-200/80 pt-5 md:grid-cols-2 md:gap-x-6 md:gap-y-4">
           {/* From: Shop Details */}
           <section className="space-y-2">
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex min-h-7 flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <h3
                   className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
@@ -568,7 +568,7 @@ export function VoucherOrderForm({
                     onChange={(event) =>
                       updateShopField({ shopName: event.target.value })
                     }
-                    className={`h-9 font-medium ${PAPER_INPUT_CLASS}`}
+                    className={`h-10 font-medium sm:h-9 ${PAPER_INPUT_CLASS}`}
                     placeholder={dictionary.shopNamePlaceholder}
                   />
                 </div>
@@ -584,7 +584,7 @@ export function VoucherOrderForm({
                     onChange={(event) =>
                       updateShopField({ phones: event.target.value })
                     }
-                    className={`h-9 ${PAPER_INPUT_CLASS}`}
+                    className={`h-10 sm:h-9 ${PAPER_INPUT_CLASS}`}
                     placeholder={dictionary.shopPhonesPlaceholder}
                   />
                 </div>
@@ -600,7 +600,7 @@ export function VoucherOrderForm({
                   onChange={(event) =>
                     updateShopField({ addressOrSocial: event.target.value })
                   }
-                  className={`h-9 text-sm ${PAPER_INPUT_CLASS}`}
+                  className={`h-10 text-sm sm:h-9 ${PAPER_INPUT_CLASS}`}
                   placeholder={dictionary.shopAddressOrSocialPlaceholder}
                 />
               </div>
@@ -609,12 +609,14 @@ export function VoucherOrderForm({
 
           {/* Bill To: Customer Details */}
           <section className="space-y-2">
-            <h3
-              className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
-            >
-              <User className="size-3.5 text-stone-500" />
-              <span>{dictionary.billToLabel}</span>
-            </h3>
+            <div className="flex min-h-7 items-center">
+              <h3
+                className={`inline-flex items-center gap-1.5 ${sectionLabelClass}`}
+              >
+                <User className="size-3.5 text-stone-500" />
+                <span>{dictionary.billToLabel}</span>
+              </h3>
+            </div>
 
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <div className="min-w-0">
@@ -693,7 +695,11 @@ export function VoucherOrderForm({
             className="overflow-hidden rounded-md border border-stone-200 bg-white"
           >
             <div
-              className="hidden px-3 py-2.5 text-[11px] font-semibold uppercase tracking-wider md:grid md:grid-cols-[minmax(0,1fr)_76px_112px_minmax(92px,auto)_36px] md:gap-2.5"
+              className={`hidden px-3 py-2.5 md:grid md:grid-cols-[minmax(0,1fr)_76px_112px_minmax(92px,auto)_36px] md:items-center md:gap-2.5 ${
+                language === "en"
+                  ? "text-[11px] font-semibold uppercase tracking-wider"
+                  : "text-xs font-semibold leading-relaxed"
+              }`}
               style={{
                 backgroundColor: accentTokens.base,
                 color: accentTokens.onAccent,
@@ -953,7 +959,7 @@ export function VoucherOrderForm({
             </div>
           </section>
 
-          <section className="space-y-1">
+          <section className="space-y-2">
             <Label
               htmlFor="order-notes"
               className="text-xs font-medium text-stone-600"
