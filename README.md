@@ -18,7 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans) and [Noto Sans Myanmar](https://fonts.google.com/noto/specimen/Noto+Sans+Myanmar).
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and self-host [Pyidaungsu](https://mmunicode.org.mm/) alongside [Noto Sans](https://fonts.google.com/noto/specimen/Noto+Sans).
 
 ## Learn More
 
